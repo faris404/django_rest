@@ -12,12 +12,9 @@ class UserManager(BaseUserManager):
          raise ValueError("User must have an email")
       if not password:
          raise ValueError("User must have a password")
-
-
       user = self.model(
          email=self.normalize_email(email)
       )
-
       user.set_password(password)  
       user.is_superuser = False
       user.is_staff = False
@@ -48,12 +45,9 @@ class User(AbstractUser):
  
    USERNAME_FIELD = 'email'
    REQUIRED_FIELDS = []
-
    email = models.CharField(max_length=200,unique=True)
    username = None
-
    objects = UserManager()
-
    class Meta:
       db_table="user"
 
