@@ -5,6 +5,7 @@ from rest_framework import generics
 from rest_framework.views import APIView
 from django.views.decorators.csrf import ensure_csrf_cookie
 from django.contrib.auth import authenticate, login
+from django.contrib.auth import logout
 from django.http import JsonResponse
 from rest_framework.authentication import SessionAuthentication
 
@@ -59,10 +60,18 @@ class UserLogin(APIView):
         )
 
 
+class UserLogout(APIView):
+    authentication_classes = [SessionAuthentication]
+
+    def post(self,request):
+        logout(request)
+        return JsonResponse({"detail": "Success"})
+
+
 class UserTest(APIView):
 
     authentication_classes = [SessionAuthentication]
-    def get(self,request):
+    def post(self,request):
         print(request.user)
         print(request.user.has_perm('users.view_user'))
         return JsonResponse({"detail": "Success"})
